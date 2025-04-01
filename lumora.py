@@ -70,6 +70,12 @@ class LandingPage(QGraphicsView):
         gradient.setColorAt(1, QColor(10, 10, 20))
         self.scene.setBackgroundBrush(QBrush(gradient))
         
+        # App icon
+        self.icon_pixmap = QPixmap("darkmin_icon.png")
+        if not self.icon_pixmap.isNull():
+            icon_item = self.scene.addPixmap(self.icon_pixmap.scaled(100, 100, Qt.AspectRatioMode.KeepAspectRatio))
+            icon_item.setPos(350, 100)
+        
         # Particles
         self.particles = [Particle(self.scene) for _ in range(50)]
         self.timer = QTimer()
@@ -147,6 +153,10 @@ class DarkBrowser(QMainWindow):
         self.setWindowTitle("DarkMin Browser")
         self.setMinimumSize(1000, 700)
         
+        # Set application icon
+        app_icon = QIcon("darkmin_icon.png")
+        self.setWindowIcon(app_icon)
+        
         # Create landing page
         self.landing_page = LandingPage()
         
@@ -159,7 +169,7 @@ class DarkBrowser(QMainWindow):
         self.stack = QStackedWidget()
         self.stack.addWidget(self.landing_page)
         self.stack.addWidget(self.tabs)
-        self.stack.setCurrentIndex(1)  # Start with browser
+        self.stack.setCurrentIndex(0)  # Start with landing page
         
         # Setup UI
         self.init_ui()
@@ -257,6 +267,10 @@ class DarkBrowser(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
+    # Set app icon globally
+    app_icon = QIcon("darkmin_icon.png")
+    app.setWindowIcon(app_icon)
+    
     # Dark theme
     palette = QPalette()
     palette.setColor(QPalette.ColorRole.Window, QColor(30, 30, 30))
@@ -265,4 +279,6 @@ if __name__ == "__main__":
     
     browser = DarkBrowser()
     browser.show()
-    sys.exit(app.exec())
+    sys.exit(app.exec()) 
+                
+        
